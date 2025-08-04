@@ -1,0 +1,9 @@
+SERIAL_DRIVER = vendor
+I2C_DRIVER_REQUIRED = yes
+DIGITIZER_DRIVER = maxtouch
+POINTING_DEVICE_DRIVER = digitizer
+MAXTOUCH_DEBUG = yes  # デバッグを有効化（タッチパッド問題診断用）
+MOUSEKEY_ENABLE = yes
+VIA_ENABLE = yes
+VIAL_ENABLE = yes
+VIAL_INSECURE = yes
