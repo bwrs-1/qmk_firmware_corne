@@ -192,7 +192,7 @@ extern layer_state_t layer_state;
 #endif
 
 #ifdef DIGITIZER_ENABLE
-#    include "digitizer.h"
+// #    include "digitizer.h"  // Commented out - digitizer support not available
 #endif
 
 #ifdef VIA_ENABLE

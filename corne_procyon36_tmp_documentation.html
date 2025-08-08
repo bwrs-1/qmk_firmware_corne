@@ -1,0 +1,800 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Corne Procyon 36 TMP キーボード - 完全ドキュメント</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            line-height: 1.6;
+            color: #333;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            background: white;
+            box-shadow: 0 0 30px rgba(0,0,0,0.3);
+            border-radius: 15px;
+            overflow: hidden;
+        }
+
+        .header {
+            background: linear-gradient(135deg, #2c3e50 0%, #34495e 100%);
+            color: white;
+            padding: 2rem;
+            text-align: center;
+        }
+
+        .header h1 {
+            font-size: 2.5rem;
+            margin-bottom: 0.5rem;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.3);
+        }
+
+        .header p {
+            font-size: 1.2rem;
+            opacity: 0.9;
+        }
+
+        .nav {
+            background: #34495e;
+            padding: 1rem 2rem;
+            position: sticky;
+            top: 0;
+            z-index: 100;
+        }
+
+        .nav ul {
+            list-style: none;
+            display: flex;
+            justify-content: center;
+            gap: 2rem;
+            flex-wrap: wrap;
+        }
+
+        .nav a {
+            color: white;
+            text-decoration: none;
+            padding: 0.5rem 1rem;
+            border-radius: 25px;
+            transition: all 0.3s ease;
+        }
+
+        .nav a:hover {
+            background: #3498db;
+            transform: translateY(-2px);
+        }
+
+        .content {
+            padding: 2rem;
+        }
+
+        .section {
+            margin-bottom: 3rem;
+            padding: 2rem;
+            background: #f8f9fa;
+            border-radius: 10px;
+            border-left: 5px solid #3498db;
+        }
+
+        .section h2 {
+            color: #2c3e50;
+            font-size: 2rem;
+            margin-bottom: 1rem;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .section h3 {
+            color: #34495e;
+            font-size: 1.5rem;
+            margin: 1.5rem 0 1rem 0;
+            border-bottom: 2px solid #3498db;
+            padding-bottom: 0.5rem;
+        }
+
+        .keyboard-layout {
+            background: #2c3e50;
+            color: white;
+            padding: 1.5rem;
+            border-radius: 10px;
+            font-family: 'Courier New', monospace;
+            font-size: 0.9rem;
+            line-height: 1.4;
+            margin: 1rem 0;
+            overflow-x: auto;
+        }
+
+        .spec-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 1rem 0;
+            background: white;
+            border-radius: 10px;
+            overflow: hidden;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+        }
+
+        .spec-table th,
+        .spec-table td {
+            padding: 1rem;
+            text-align: left;
+            border-bottom: 1px solid #ddd;
+        }
+
+        .spec-table th {
+            background: #3498db;
+            color: white;
+            font-weight: bold;
+        }
+
+        .spec-table tr:nth-child(even) {
+            background: #f8f9fa;
+        }
+
+        .spec-table tr:hover {
+            background: #e3f2fd;
+        }
+
+        .code-block {
+            background: #2c3e50;
+            color: #ecf0f1;
+            padding: 1.5rem;
+            border-radius: 10px;
+            font-family: 'Courier New', monospace;
+            font-size: 0.9rem;
+            line-height: 1.4;
+            margin: 1rem 0;
+            overflow-x: auto;
+        }
+
+        .highlight {
+            background: #fff3cd;
+            border: 1px solid #ffeaa7;
+            padding: 1rem;
+            border-radius: 5px;
+            margin: 1rem 0;
+        }
+
+        .warning {
+            background: #f8d7da;
+            border: 1px solid #f5c6cb;
+            color: #721c24;
+            padding: 1rem;
+            border-radius: 5px;
+            margin: 1rem 0;
+        }
+
+        .success {
+            background: #d4edda;
+            border: 1px solid #c3e6cb;
+            color: #155724;
+            padding: 1rem;
+            border-radius: 5px;
+            margin: 1rem 0;
+        }
+
+        .grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 2rem;
+            margin: 1rem 0;
+        }
+
+        .card {
+            background: white;
+            padding: 1.5rem;
+            border-radius: 10px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+            border-top: 4px solid #3498db;
+        }
+
+        .card h4 {
+            color: #2c3e50;
+            margin-bottom: 1rem;
+            font-size: 1.2rem;
+        }
+
+        .icon {
+            font-size: 1.5rem;
+            margin-right: 0.5rem;
+        }
+
+        .footer {
+            background: #2c3e50;
+            color: white;
+            text-align: center;
+            padding: 2rem;
+            margin-top: 2rem;
+        }
+
+        @media (max-width: 768px) {
+            .nav ul {
+                flex-direction: column;
+                gap: 1rem;
+            }
+            
+            .header h1 {
+                font-size: 2rem;
+            }
+            
+            .content {
+                padding: 1rem;
+            }
+            
+            .section {
+                padding: 1rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header class="header">
+            <h1>🖥️ Corne Procyon 36 TMP キーボード</h1>
+            <p>完全ドキュメント & 操作ガイド</p>
+        </header>
+
+        <nav class="nav">
+            <ul>
+                <li><a href="#overview">概要</a></li>
+                <li><a href="#quickstart">クイックスタート</a></li>
+                <li><a href="#specs">技術仕様</a></li>
+                <li><a href="#operation">操作方法</a></li>
+                <li><a href="#firmware">ファームウェア</a></li>
+                <li><a href="#troubleshooting">トラブルシューティング</a></li>
+            </ul>
+        </nav>
+
+        <div class="content">
+            <!-- 概要セクション -->
+            <section id="overview" class="section">
+                <h2><span class="icon">📋</span>概要</h2>
+                
+                <div class="grid">
+                    <div class="card">
+                        <h4>基本情報</h4>
+                        <ul>
+                            <li><strong>名称:</strong> Corne Procyon 36 TMP</li>
+                            <li><strong>キー数:</strong> 36キー（左右各18キー）</li>
+                            <li><strong>レイアウト:</strong> 分割型キーボード</li>
+                            <li><strong>マイコン:</strong> RP2040</li>
+                            <li><strong>接続:</strong> USB Type-C</li>
+                        </ul>
+                    </div>
+                    
+                    <div class="card">
+                        <h4>特殊機能</h4>
+                        <ul>
+                            <li>🖱️ Procyonポインティングデバイス</li>
+                            <li>🌈 RGBライト（27個のLED）</li>
+                            <li>⚙️ エンコーダー（2個）</li>
+                            <li>🔧 VIA対応</li>
+                            <li>🔗 分割キーボード機能</li>
+                        </ul>
+                    </div>
+                </div>
+
+                <div class="highlight">
+                    <strong>💡 特徴:</strong> このキーボードは、コンパクトな36キーレイアウトでありながら、タッチパッド機能とRGBライトを搭載した高機能な分割キーボードです。RP2040マイコンを使用し、VIAによる簡単な設定変更が可能です。
+                </div>
+            </section>
+
+            <!-- クイックスタートセクション -->
+            <section id="quickstart" class="section">
+                <h2><span class="icon">🚀</span>クイックスタートガイド</h2>
+                
+                <h3>1. 接続手順</h3>
+                <div class="grid">
+                    <div class="card">
+                        <h4>ステップ1: USB接続</h4>
+                        <ol>
+                            <li>USB Type-Cケーブルで右側キーボードをPCに接続</li>
+                            <li>左側キーボードは右側キーボードに自動接続されます</li>
+                            <li>初回接続時はドライバーのインストールが必要な場合があります</li>
+                        </ol>
+                    </div>
+                    
+                    <div class="card">
+                        <h4>ステップ2: 動作確認</h4>
+                        <ul>
+                            <li>✅ キーボードが認識される</li>
+                            <li>✅ RGBライトが点灯する</li>
+                            <li>✅ キー入力が反応する</li>
+                            <li>✅ タッチパッドが動作する</li>
+                        </ul>
+                    </div>
+                </div>
+
+                <h3>2. 基本的なキーボードレイアウト</h3>
+                <div class="keyboard-layout">
+左側                   右側
+┌─────┬─────┬─────┬─────┬─────┬─────┐  ┌─────┬─────┬─────┬─────┬─────┬─────┐
+│ TAB │  Q  │  W  │  E  │  R  │  T  │  │  Y  │  U  │  I  │  O  │  P  │BSPC │
+├─────┼─────┼─────┼─────┼─────┼─────┤  ├─────┼─────┼─────┼─────┼─────┼─────┤
+│CTRL │  A  │  S  │  D  │  F  │  G  │  │  H  │  J  │  K  │  L  │  ;  │  '  │
+├─────┼─────┼─────┼─────┼─────┼─────┤  ├─────┼─────┼─────┼─────┼─────┼─────┤
+│SHIFT│  Z  │  X  │  C  │  V  │  B  │  │  N  │  M  │  ,  │  .  │  /  │SHIFT│
+└─────┴─────┴─────┼─────┼─────┼─────┤  ├─────┼─────┼─────┼─────┴─────┴─────┘
+                  │GUI  │GUI  │LOWER│  │RAISE│BSPC │GUI  │
+                  └─────┴─────┴─────┘  └─────┴─────┴─────┘
+                </div>
+
+                <h3>3. 最初に覚えるべき3つのキー</h3>
+                <div class="grid">
+                    <div class="card">
+                        <h4>🔽 LOWER (左側の親指キー)</h4>
+                        <p>機能キーに切り替え</p>
+                        <ul>
+                            <li>F1-F12: 機能キー</li>
+                            <li>矢印キー: ナビゲーション</li>
+                            <li>Home/End: カーソル移動</li>
+                        </ul>
+                    </div>
+                    
+                    <div class="card">
+                        <h4>🔼 RAISE (右側の親指キー)</h4>
+                        <p>数字・記号に切り替え</p>
+                        <ul>
+                            <li>0-9: 数字</li>
+                            <li>記号: !@#$%^&*()_+-=[]{}|;':",./<>?</li>
+                        </ul>
+                    </div>
+                    
+                    <div class="card">
+                        <h4>␣ SPACE (中央の親指キー)</h4>
+                        <p>スペース入力</p>
+                        <ul>
+                            <li>通常のスペース入力</li>
+                            <li>レイヤー切り替え中でも使用可能</li>
+                        </ul>
+                    </div>
+                </div>
+            </section>
+
+            <!-- 技術仕様セクション -->
+            <section id="specs" class="section">
+                <h2><span class="icon">⚙️</span>技術仕様</h2>
+                
+                <h3>ハードウェア仕様</h3>
+                <table class="spec-table">
+                    <thead>
+                        <tr>
+                            <th>項目</th>
+                            <th>仕様</th>
+                            <th>詳細</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td><strong>マイクロコントローラー</strong></td>
+                            <td>RP2040</td>
+                            <td>ARM Cortex-M0+ デュアルコア、133MHz</td>
+                        </tr>
+                        <tr>
+                            <td><strong>フラッシュメモリ</strong></td>
+                            <td>2MB</td>
+                            <td>ファームウェア保存用</td>
+                        </tr>
+                        <tr>
+                            <td><strong>SRAM</strong></td>
+                            <td>264KB</td>
+                            <td>実行時メモリ</td>
+                        </tr>
+                        <tr>
+                            <td><strong>基板サイズ</strong></td>
+                            <td>120mm × 80mm</td>
+                            <td>左右各基板</td>
+                        </tr>
+                        <tr>
+                            <td><strong>基板層数</strong></td>
+                            <td>4層</td>
+                            <td>FR-4材質</td>
+                        </tr>
+                        <tr>
+                            <td><strong>キースイッチ</strong></td>
+                            <td>36個</td>
+                            <td>Cherry MX互換</td>
+                        </tr>
+                    </tbody>
+                </table>
+
+                <h3>電気仕様</h3>
+                <table class="spec-table">
+                    <thead>
+                        <tr>
+                            <th>項目</th>
+                            <th>仕様</th>
+                            <th>備考</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td><strong>入力電圧</strong></td>
+                            <td>5V ±5%</td>
+                            <td>USB規格準拠</td>
+                        </tr>
+                        <tr>
+                            <td><strong>動作電圧</strong></td>
+                            <td>3.3V</td>
+                            <td>内部電源</td>
+                        </tr>
+                        <tr>
+                            <td><strong>消費電流（通常時）</strong></td>
+                            <td>50-100mA</td>
+                            <td>RGBオフ時</td>
+                        </tr>
+                        <tr>
+                            <td><strong>消費電流（RGB点灯時）</strong></td>
+                            <td>最大500mA</td>
+                            <td>全LED点灯時</td>
+                        </tr>
+                        <tr>
+                            <td><strong>USB規格</strong></td>
+                            <td>USB 2.0</td>
+                            <td>Type-C接続器</td>
+                        </tr>
+                    </tbody>
+                </table>
+
+                <h3>通信仕様</h3>
+                <table class="spec-table">
+                    <thead>
+                        <tr>
+                            <th>項目</th>
+                            <th>仕様</th>
+                            <th>ピン配置</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td><strong>I2C通信</strong></td>
+                            <td>1MHz</td>
+                            <td>SDA: GP2, SCL: GP3</td>
+                        </tr>
+                        <tr>
+                            <td><strong>シリアル通信</strong></td>
+                            <td>全二重</td>
+                            <td>TX: GP0, RX: GP1</td>
+                        </tr>
+                        <tr>
+                            <td><strong>ハンドネス判定</strong></td>
+                            <td>GP29ピン</td>
+                            <td>High=右側, Low=左側</td>
+                        </tr>
+                        <tr>
+                            <td><strong>デジタイザー</strong></td>
+                            <td>GP11ピン</td>
+                            <td>動作検知用</td>
+                        </tr>
+                    </tbody>
+                </table>
+
+                <h3>ポインティングデバイス仕様</h3>
+                <div class="grid">
+                    <div class="card">
+                        <h4>🖱️ タッチパッド仕様</h4>
+                        <ul>
+                            <li><strong>タイプ:</strong> Procyon内蔵タッチパッド</li>
+                            <li><strong>I2Cアドレス:</strong> 0x4B</li>
+                            <li><strong>位置:</strong> 右側キーボード内蔵</li>
+                            <li><strong>ドライバー:</strong> カスタムProcyonドライバー</li>
+                        </ul>
+                    </div>
+                    
+                    <div class="card">
+                        <h4>🌈 RGBライト仕様</h4>
+                        <ul>
+                            <li><strong>LED数:</strong> 27個のWS2812B</li>
+                            <li><strong>制御:</strong> VIA対応</li>
+                            <li><strong>効果:</strong> ブリージング、レインボー等</li>
+                            <li><strong>消費電力:</strong> 最大500mA</li>
+                        </ul>
+                    </div>
+                </div>
+            </section>
+
+            <!-- 操作方法セクション -->
+            <section id="operation" class="section">
+                <h2><span class="icon">⌨️</span>操作方法</h2>
+                
+                <h3>レイヤー機能</h3>
+                <table class="spec-table">
+                    <thead>
+                        <tr>
+                            <th>レイヤー</th>
+                            <th>アクセス方法</th>
+                            <th>主な機能</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td><strong>BASE</strong></td>
+                            <td>デフォルト</td>
+                            <td>通常の文字入力</td>
+                        </tr>
+                        <tr>
+                            <td><strong>LOWER</strong></td>
+                            <td>左側親指キー</td>
+                            <td>機能キー、ナビゲーション</td>
+                        </tr>
+                        <tr>
+                            <td><strong>RAISE</strong></td>
+                            <td>右側親指キー</td>
+                            <td>数字、記号</td>
+                        </tr>
+                        <tr>
+                            <td><strong>ADJUST</strong></td>
+                            <td>LOWER + RAISE</td>
+                            <td>設定、RGB制御</td>
+                        </tr>
+                    </tbody>
+                </table>
+
+                <h3>ポインティングデバイス操作</h3>
+                <div class="grid">
+                    <div class="card">
+                        <h4>🖱️ 基本操作</h4>
+                        <ul>
+                            <li><strong>移動:</strong> 指でスライド</li>
+                            <li><strong>クリック:</strong> タップ</li>
+                            <li><strong>設定:</strong> VIAで感度調整可能</li>
+                        </ul>
+                    </div>
+                    
+                    <div class="card">
+                        <h4>⚙️ 設定調整</h4>
+                        <ul>
+                            <li><strong>感度調整:</strong> VIAアプリで調整</li>
+                            <li><strong>CPI設定:</strong> 1000CPI固定</li>
+                            <li><strong>ボタン設定:</strong> 左クリック対応</li>
+                        </ul>
+                    </div>
+                </div>
+
+                <h3>RGBライト制御</h3>
+                <div class="grid">
+                    <div class="card">
+                        <h4>🌈 基本操作</h4>
+                        <ul>
+                            <li><strong>ON/OFF:</strong> ADJUSTレイヤーでRGB_TOG</li>
+                            <li><strong>モード変更:</strong> RGB_MOD</li>
+                            <li><strong>色変更:</strong> RGB_HUI/RGB_HUD</li>
+                        </ul>
+                    </div>
+                    
+                    <div class="card">
+                        <h4>🎨 おすすめ設定</h4>
+                        <ul>
+                            <li><strong>ブリージング:</strong> 呼吸効果</li>
+                            <li><strong>レインボー:</strong> 虹色変化</li>
+                            <li><strong>タイピングヒートマップ:</strong> 入力頻度に応じた色変化</li>
+                        </ul>
+                    </div>
+                </div>
+
+                <div class="success">
+                    <strong>💡 ヒント:</strong> レイヤー切り替えは慣れるまで時間がかかりますが、一度覚えると非常に効率的な入力が可能になります。特にLOWERとRAISEの使い分けをマスターしましょう。
+                </div>
+            </section>
+
+            <!-- ファームウェアセクション -->
+            <section id="firmware" class="section">
+                <h2><span class="icon">🔧</span>ファームウェア設定</h2>
+                
+                <h3>主要設定ファイル</h3>
+                <div class="code-block">
+// config.h - 主要設定
+#define SPLIT_HAND_PIN GP29                    // 左右判定用ピン
+#define SPLIT_POINTING_ENABLE                  // 分割ポインティングデバイス有効化
+#define POINTING_DEVICE_RIGHT                  // ポインティングデバイスは右側
+#define I2C1_SDA_PIN GP2                       // I2C SDAピン
+#define I2C1_SCL_PIN GP3                       // I2C SCLピン
+#define DIGITIZER_MOTION_PIN GP11              // デジタイザー動作検知ピン
+#define PROCYON_42_50                          // Procyon 42/50モデル用設定
+                </div>
+
+                <h3>ビルドコマンド</h3>
+                <div class="grid">
+                    <div class="card">
+                        <h4>🔨 基本的なビルド</h4>
+                        <div class="code-block">
+# 基本的なビルド
+make corne_procyon36_tmp:default
+
+# ファームウェア書き込み
+make corne_procyon36_tmp:default:flash
+                        </div>
+                    </div>
+                    
+                    <div class="card">
+                        <h4>🔗 分割キーボード用の書き込み</h4>
+                        <div class="code-block">
+# 左側キーボード
+make corne_procyon36_tmp:default:uf2-split-left
+
+# 右側キーボード
+make corne_procyon36_tmp:default:uf2-split-right
+                        </div>
+                    </div>
+                </div>
+
+                <h3>カスタムドライバー</h3>
+                <div class="code-block">
+/* ============================================================================
+ * Procyon Keyboard Custom Pointing Device Driver
+ * ============================================================================ */
+#define PROCYON_I2C_ADDR 0x4B                    // Procyon I2Cアドレス
+#define PROCYON_I2C_TIMEOUT 1000                 // I2Cタイムアウト（ミリ秒）
+
+// ファイル: procyon_driver.c
+// 機能: タッチパッドデータの読み取りとマウスレポート生成
+                </div>
+
+                <h3>VIA設定</h3>
+                <div class="grid">
+                    <div class="card">
+                        <h4>🔧 VIA有効化</h4>
+                        <div class="code-block">
+// rules.mk
+VIA_ENABLE = yes                                // VIA（Visual Input Assistant）を有効化
+                        </div>
+                    </div>
+                    
+                    <div class="card">
+                        <h4>📱 VIAアプリ使用方法</h4>
+                        <ol>
+                            <li>VIAアプリをダウンロード・インストール</li>
+                            <li>キーボードを接続</li>
+                            <li>キーマップの変更</li>
+                            <li>RGBライトの設定</li>
+                            <li>マクロの設定</li>
+                        </ol>
+                    </div>
+                </div>
+
+                <div class="warning">
+                    <strong>⚠️ 注意:</strong> ファームウェアの書き込み前に、必ずブートローダーモードに入る必要があります。書き込み中はキーボードの電源を切らないでください。
+                </div>
+            </section>
+
+            <!-- トラブルシューティングセクション -->
+            <section id="troubleshooting" class="section">
+                <h2><span class="icon">🔍</span>トラブルシューティング</h2>
+                
+                <h3>よくある問題と解決方法</h3>
+                <table class="spec-table">
+                    <thead>
+                        <tr>
+                            <th>問題</th>
+                            <th>原因</th>
+                            <th>解決方法</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td><strong>左側キーボードが動作しない</strong></td>
+                            <td>分割キーボード設定が無効</td>
+                            <td><code>SPLIT_KEYBOARD = yes</code>を追加</td>
+                        </tr>
+                        <tr>
+                            <td><strong>タッチパッドが反応しない</strong></td>
+                            <td>ドライバー設定が不適切</td>
+                            <td>適切なドライバーを設定</td>
+                        </tr>
+                        <tr>
+                            <td><strong>I2C通信エラー</strong></td>
+                            <td>ピン設定が間違っている</td>
+                            <td>GP2/GP3ピンの設定を確認</td>
+                        </tr>
+                        <tr>
+                            <td><strong>ブートローダーに入れない</strong></td>
+                            <td>リセット方法が間違っている</td>
+                            <td>ダブルタップリセットを試行</td>
+                        </tr>
+                        <tr>
+                            <td><strong>RGBライトが点灯しない</strong></td>
+                            <td>電源不足または設定エラー</td>
+                            <td>USBケーブルとVIA設定を確認</td>
+                        </tr>
+                        <tr>
+                            <td><strong>キー入力が反応しない</strong></td>
+                            <td>ファームウェアエラー</td>
+                            <td>ファームウェアを再書き込み</td>
+                        </tr>
+                    </tbody>
+                </table>
+
+                <h3>ブートローダー進入方法</h3>
+                <div class="grid">
+                    <div class="card">
+                        <h4>🔑 Bootmagic reset</h4>
+                        <p>左上のキーを押しながらUSB接続</p>
+                    </div>
+                    
+                    <div class="card">
+                        <h4>🔘 Physical reset button</h4>
+                        <p>基板裏面のリセットボタンを短く押す</p>
+                    </div>
+                    
+                    <div class="card">
+                        <h4>⚡ Double tap reset</h4>
+                        <p>リセットボタンを素早く2回押す</p>
+                    </div>
+                </div>
+
+                <h3>デバッグ方法</h3>
+                <div class="grid">
+                    <div class="card">
+                        <h4>📊 シリアルモニター</h4>
+                        <ul>
+                            <li>デバッグ情報の確認</li>
+                            <li>エラーメッセージの確認</li>
+                            <li>動作状況の監視</li>
+                        </ul>
+                    </div>
+                    
+                    <div class="card">
+                        <h4>🔍 I2Cスキャン</h4>
+                        <ul>
+                            <li>デバイスの検出確認</li>
+                            <li>アドレスの確認</li>
+                            <li>通信状態の確認</li>
+                        </ul>
+                    </div>
+                    
+                    <div class="card">
+                        <h4>💡 LED確認</h4>
+                        <ul>
+                            <li>GP25のLEDでブートローダー状態確認</li>
+                            <li>RGBライトの動作確認</li>
+                            <li>電源状態の確認</li>
+                        </ul>
+                    </div>
+                </div>
+
+                <div class="highlight">
+                    <strong>💡 トラブルシューティングのコツ:</strong> 問題が発生した場合は、まず基本的な接続と電源を確認し、その後ファームウェアの設定を見直してください。多くの問題は設定の不備で解決できます。
+                </div>
+            </section>
+        </div>
+
+        <footer class="footer">
+            <h3>参考資料</h3>
+            <div class="grid">
+                <div class="card">
+                    <h4>📚 公式ドキュメント</h4>
+                    <ul>
+                        <li><a href="https://docs.qmk.fm/" target="_blank">QMK Firmware Documentation</a></li>
+                        <li><a href="https://caniusevia.com/" target="_blank">VIA Documentation</a></li>
+                        <li><a href="https://datasheets.raspberrypi.com/rp2040/rp2040-datasheet.pdf" target="_blank">RP2040 Datasheet</a></li>
+                    </ul>
+                </div>
+                
+                <div class="card">
+                    <h4>👨‍💻 開発者情報</h4>
+                    <ul>
+                        <li><strong>Keyboard Maintainer:</strong> <a href="https://github.com/LXF-YZP" target="_blank">https://github.com/LXF-YZP</a></li>
+                        <li><strong>Hardware Supported:</strong> <a href="https://github.com/LXF-YZP/KafkaSplit" target="_blank">https://github.com/LXF-YZP/KafkaSplit</a></li>
+                    </ul>
+                </div>
+            </div>
+            
+            <p style="margin-top: 2rem; opacity: 0.8;">
+                <em>このドキュメントは Corne Procyon 36 TMP キーボードの完全な操作ガイドです。</em>
+            </p>
+        </footer>
+    </div>
+</body>
+</html> 

@@ -24,7 +24,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #include "usb_device_state.h"
 
 #ifdef DIGITIZER_ENABLE
-#    include "digitizer.h"
+// #    include "digitizer.h"  // Commented out - digitizer support not available
 #endif
 
 #ifdef JOYSTICK_ENABLE
@@ -271,23 +271,23 @@ void host_joystick_send(joystick_t *joystick) {
 __attribute__((weak)) void send_joystick(report_joystick_t *report) {}
 
 #ifdef DIGITIZER_ENABLE
-void host_digitizer_send(digitizer_t *digitizer) {
-    report_digitizer_t report = {
-#    ifdef DIGITIZER_SHARED_EP
-        .report_id = REPORT_ID_DIGITIZER,
-#    endif
-        .in_range = digitizer->in_range,
-        .tip      = digitizer->tip,
-        .barrel   = digitizer->barrel,
-        .x        = (uint16_t)(digitizer->x * 0x7FFF),
-        .y        = (uint16_t)(digitizer->y * 0x7FFF),
-    };
-
-    send_digitizer(&report);
-}
+// void host_digitizer_send(digitizer_t *digitizer) {
+//     report_digitizer_t report = {
+// #    ifdef DIGITIZER_SHARED_EP
+//         .report_id = REPORT_ID_DIGITIZER,
+// #    endif
+//         .in_range = digitizer->in_range,
+//         .tip      = digitizer->tip,
+//         .barrel   = digitizer->barrel,
+//         .x        = (uint16_t)(digitizer->x * 0x7FFF),
+//         .y        = (uint16_t)(digitizer->y * 0x7FFF),
+//     };
+// 
+//     send_digitizer(&report);
+// }
 #endif
 
-__attribute__((weak)) void send_digitizer(report_digitizer_t *report) {}
+// __attribute__((weak)) void send_digitizer(report_digitizer_t *report) {}
 
 #ifdef PROGRAMMABLE_BUTTON_ENABLE
 void host_programmable_button_send(uint32_t data) {
