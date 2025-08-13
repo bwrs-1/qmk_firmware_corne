@@ -25,3 +25,7 @@
 	path = lib/lvgl
 	url = https://github.com/qmk/lvgl.git
 	branch = release/v8.2
+[submodule "lib/procyon_qmk_support"]
+	path = lib/procyon_qmk_support
+	url = https://github.com/george-norton/qmk_firmware.git
+	branch = multitouch_experiment
