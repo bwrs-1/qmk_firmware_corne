@@ -1,10 +1,9 @@
 SERIAL_DRIVER = vendor
 I2C_DRIVER_REQUIRED = yes
 # Use digitizer+mouse fallback (Maxtouch → mouse). This preserves existing Procyon stack.
-DIGITIZER_ENABLE = yes
-DIGITIZER_DRIVER = maxtouch
 POINTING_DEVICE_ENABLE = yes
-POINTING_DEVICE_DRIVER = digitizer
+POINTING_DEVICE_DRIVER = custom
+POINTING_DEVICE_DRIVER_NAME = procyon
 MAXTOUCH_DEBUG = no
 
 # ============================================================================
