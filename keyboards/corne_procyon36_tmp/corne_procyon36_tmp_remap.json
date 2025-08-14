@@ -6,7 +6,9 @@
     "vid": "0xAFC6",
     "pid": "0xBFC6"
   },
-  "lighting": "rgb_matrix",
+  "lighting": {
+    "extends": "rgb_matrix"
+  },
   "matrix": {
     "rows": 4,
     "cols": 12
