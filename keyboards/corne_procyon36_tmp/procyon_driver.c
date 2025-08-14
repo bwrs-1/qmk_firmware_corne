@@ -29,8 +29,10 @@ static bool procyon_initialized = false;         /* 初期化フラグ */
  * @return 初期化成功時true、失敗時false
  */
 static bool procyon_init_device(void) {
+    i2c_init();
+    /* ping: many maxtouch controllers NACK on 0x00 write; use read of 0x00 */
     uint8_t data = 0x00;
-    uint8_t ret = i2c_write_register(PROCYON_I2C_ADDR, 0x00, &data, 1, PROCYON_I2C_TIMEOUT);
+    uint8_t ret = i2c_read_register(PROCYON_I2C_ADDR, 0x00, &data, 1, PROCYON_I2C_TIMEOUT);
     if (ret != I2C_STATUS_SUCCESS) {
         return false;
     }
@@ -43,7 +45,8 @@ static bool procyon_init_device(void) {
  * @return 更新されたマウスレポート
  */
 static report_mouse_t procyon_read_data(report_mouse_t mouse_report) {
-    uint8_t data[4];
+    uint8_t data[4] = {0};
+    /* read coordinate registers; adjust if your hardware uses different map */
     uint8_t ret = i2c_read_register(PROCYON_I2C_ADDR, 0x01, data, 4, PROCYON_I2C_TIMEOUT);
     
     if (ret == I2C_STATUS_SUCCESS) {
@@ -52,8 +55,9 @@ static report_mouse_t procyon_read_data(report_mouse_t mouse_report) {
         int16_t y = (int16_t)((data[2] << 8) | data[3]);
         
         /* マウスレポートの更新 */
-        mouse_report.x = (mouse_xy_report_t)(x / 256);  /* スケーリング */
-        mouse_report.y = (mouse_xy_report_t)(y / 256);  /* スケーリング */
+        /* scale and invert Y to match screen coordinates */
+        mouse_report.x = (mouse_xy_report_t)(x / 128);
+        mouse_report.y = (mouse_xy_report_t)(-y / 128);
         
         /* ボタン状態の確認（必要に応じて） */
         if (data[0] & 0x80) {
