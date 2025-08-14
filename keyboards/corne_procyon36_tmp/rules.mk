@@ -1,12 +1,10 @@
 SERIAL_DRIVER = vendor
 I2C_DRIVER_REQUIRED = yes
-# Use custom pointing device driver (Procyon mouse), not HID digitizer
-# DIGITIZER_ENABLE/DIGITIZER_DRIVER would disable POINTING_DEVICE; do not enable here
-# DIGITIZER_ENABLE = no
-# DIGITIZER_DRIVER = maxtouch
+# Use digitizer+mouse fallback (Maxtouch → mouse). This preserves existing Procyon stack.
+DIGITIZER_ENABLE = yes
+DIGITIZER_DRIVER = maxtouch
 POINTING_DEVICE_ENABLE = yes
-POINTING_DEVICE_DRIVER = custom
-POINTING_DEVICE_DRIVER_NAME = procyon
+POINTING_DEVICE_DRIVER = digitizer
 MAXTOUCH_DEBUG = no
 
 # ============================================================================
