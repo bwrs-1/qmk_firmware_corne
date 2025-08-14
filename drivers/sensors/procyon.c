@@ -43,14 +43,14 @@ static bool procyon_init_device(void) {
     uint8_t ret = i2c_read_register(PROCYON_I2C_ADDR_4B, 0x00, &data, 1, PROCYON_I2C_TIMEOUT);
     if (ret == I2C_STATUS_SUCCESS) {
         procyon_i2c_addr = PROCYON_I2C_ADDR_4B;
-        uprintf("[PROCYON] init OK addr=0x%02X data=0x%02X\n", procyon_i2c_addr, data);
+        dprintf("[PROCYON] init OK addr=0x%02X data=0x%02X\n", procyon_i2c_addr, data);
     } else {
         ret = i2c_read_register(PROCYON_I2C_ADDR_4A, 0x00, &data, 1, PROCYON_I2C_TIMEOUT);
         if (ret == I2C_STATUS_SUCCESS) {
             procyon_i2c_addr = PROCYON_I2C_ADDR_4A;
-            uprintf("[PROCYON] init OK addr=0x%02X data=0x%02X\n", procyon_i2c_addr, data);
+            dprintf("[PROCYON] init OK addr=0x%02X data=0x%02X\n", procyon_i2c_addr, data);
         } else {
-            uprintf("[PROCYON] init FAIL (no I2C ACK at 0x4B/0x4A) ret=%d\n", ret);
+            dprintf("[PROCYON] init FAIL (no I2C ACK at 0x4B/0x4A) ret=%d\n", ret);
             return false;
         }
     }
@@ -75,9 +75,9 @@ static report_mouse_t procyon_read_data(report_mouse_t mouse_report) {
         /* マウスレポートの更新 */
         mouse_report.x = (mouse_xy_report_t)(x / 128);
         mouse_report.y = (mouse_xy_report_t)(-y / 128);
-        uprintf("[PROCYON] move x=%d y=%d\n", (int)mouse_report.x, (int)mouse_report.y);
+        dprintf("[PROCYON] move x=%d y=%d\n", (int)mouse_report.x, (int)mouse_report.y);
     } else {
-        uprintf("[PROCYON] read err ret=%d addr=0x%02X\n", ret, procyon_i2c_addr);
+        dprintf("[PROCYON] read err ret=%d addr=0x%02X\n", ret, procyon_i2c_addr);
         
         /* ボタン状態の確認（必要に応じて） */
         if (data[0] & 0x80) {
