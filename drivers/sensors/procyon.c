@@ -18,13 +18,15 @@
 /* ============================================================================
  * 定数定義
  * ============================================================================ */
-#define PROCYON_I2C_ADDR (0x4B << 1)             /* Procyon I2Cアドレス (8-bit, shifted) */
+#define PROCYON_I2C_ADDR_4A (0x4A << 1)
+#define PROCYON_I2C_ADDR_4B (0x4B << 1)
 #define PROCYON_I2C_TIMEOUT 1000                 /* I2Cタイムアウト（ミリ秒） */
 
 /* ============================================================================
  * グローバル変数
  * ============================================================================ */
 static bool procyon_initialized = false;         /* 初期化フラグ */
+static uint8_t procyon_i2c_addr = PROCYON_I2C_ADDR_4B; /* 検出されたアドレス */
 
 /* ============================================================================
  * 内部関数
@@ -37,11 +39,20 @@ static bool procyon_initialized = false;         /* 初期化フラグ */
 static bool procyon_init_device(void) {
     i2c_init();
     uint8_t data = 0x00;
-    /* ping with read to avoid devices that NACK write to 0x00 */
-    uint8_t ret = i2c_read_register(PROCYON_I2C_ADDR, 0x00, &data, 1, PROCYON_I2C_TIMEOUT);
-    uprintf("[PROCYON] init: addr=0x%02X ret=%d data=0x%02X\n", PROCYON_I2C_ADDR, ret, data);
-    if (ret != I2C_STATUS_SUCCESS) {
-        return false;
+    /* 0x4B→0x4A の順で疎通確認 */
+    uint8_t ret = i2c_read_register(PROCYON_I2C_ADDR_4B, 0x00, &data, 1, PROCYON_I2C_TIMEOUT);
+    if (ret == I2C_STATUS_SUCCESS) {
+        procyon_i2c_addr = PROCYON_I2C_ADDR_4B;
+        uprintf("[PROCYON] init OK addr=0x%02X data=0x%02X\n", procyon_i2c_addr, data);
+    } else {
+        ret = i2c_read_register(PROCYON_I2C_ADDR_4A, 0x00, &data, 1, PROCYON_I2C_TIMEOUT);
+        if (ret == I2C_STATUS_SUCCESS) {
+            procyon_i2c_addr = PROCYON_I2C_ADDR_4A;
+            uprintf("[PROCYON] init OK addr=0x%02X data=0x%02X\n", procyon_i2c_addr, data);
+        } else {
+            uprintf("[PROCYON] init FAIL (no I2C ACK at 0x4B/0x4A) ret=%d\n", ret);
+            return false;
+        }
     }
     
     return true;
@@ -54,7 +65,7 @@ static bool procyon_init_device(void) {
  */
 static report_mouse_t procyon_read_data(report_mouse_t mouse_report) {
     uint8_t data[4] = {0};
-    uint8_t ret = i2c_read_register(PROCYON_I2C_ADDR, 0x01, data, 4, PROCYON_I2C_TIMEOUT);
+    uint8_t ret = i2c_read_register(procyon_i2c_addr, 0x01, data, 4, PROCYON_I2C_TIMEOUT);
     
     if (ret == I2C_STATUS_SUCCESS) {
         /* データの解析（実際のハードウェアに合わせて調整が必要） */
@@ -66,7 +77,7 @@ static report_mouse_t procyon_read_data(report_mouse_t mouse_report) {
         mouse_report.y = (mouse_xy_report_t)(-y / 128);
         uprintf("[PROCYON] move x=%d y=%d\n", (int)mouse_report.x, (int)mouse_report.y);
     } else {
-        uprintf("[PROCYON] read err ret=%d\n", ret);
+        uprintf("[PROCYON] read err ret=%d addr=0x%02X\n", ret, procyon_i2c_addr);
         
         /* ボタン状態の確認（必要に応じて） */
         if (data[0] & 0x80) {
