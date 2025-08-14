@@ -4,7 +4,7 @@
 #include QMK_KEYBOARD_H
 #include "i2c_master.h"
 #include "procyon.h"
-#include "pointing_device.h"
+#include "digitizer.h"
 #include "print.h"
 #include "raw_hid.h"
 
@@ -78,22 +78,20 @@ static report_mouse_t procyon_read_data(report_mouse_t mouse_report) {
         /* データの解析（実際のハードウェアに合わせて調整が必要） */
         int16_t x = (int16_t)((data[0] << 8) | data[1]);
         int16_t y = (int16_t)((data[2] << 8) | data[3]);
-        
-        /* マウスレポートの更新 */
-        mouse_report.x = (mouse_xy_report_t)(x / 128);
-        mouse_report.y = (mouse_xy_report_t)(-y / 128);
-        dprintf("[PROCYON] move x=%d y=%d\n", (int)mouse_report.x, (int)mouse_report.y);
-        uint8_t pkt[RAW_EPSIZE] = { 'P','M','O','V', (uint8_t)mouse_report.x, (uint8_t)mouse_report.y };
+        /* Digitizer（絶対座標）として送る */
+        float xn = (float)x / 32767.0f;
+        float yn = (float)(-y) / 32767.0f;
+        if (xn < 0) xn = 0; if (xn > 1) xn = 1;
+        if (yn < 0) yn = 0; if (yn > 1) yn = 1;
+        digitizer_in_range_on();
+        digitizer_set_position(xn, yn);
+        dprintf("[PROCYON][ABS] x=%.3f y=%.3f\n", xn, yn);
+        uint8_t pkt[RAW_EPSIZE] = { 'P','A','B','S', (uint8_t)(xn * 255), (uint8_t)(yn * 255) };
         raw_hid_send(pkt, RAW_EPSIZE);
     } else {
         dprintf("[PROCYON] read err ret=%d addr=0x%02X\n", ret, procyon_i2c_addr);
         uint8_t pkt[RAW_EPSIZE] = { 'P','E','R','R', (uint8_t)ret, (uint8_t)(procyon_i2c_addr>>1) };
         raw_hid_send(pkt, RAW_EPSIZE);
-        
-        /* ボタン状態の確認（必要に応じて） */
-        if (data[0] & 0x80) {
-            mouse_report.buttons |= MOUSE_BTN1;
-        }
     }
     
     return mouse_report;
