@@ -11,3 +11,4 @@ MAXTOUCH_DEBUG = no
 # ============================================================================
 VIA_ENABLE = yes                                # VIA（Visual Input Assistant）を有効化
 CONSOLE_ENABLE = yes                             # USBシリアルコンソールを有効化（uprintf出力）
+RAW_ENABLE = yes                                 # Raw HIDを有効化（HID Console向けログ）
