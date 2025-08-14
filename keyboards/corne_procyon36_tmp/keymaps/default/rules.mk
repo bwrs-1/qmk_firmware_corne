@@ -1,4 +1,5 @@
-POINTING_DEVICE_ENABLE = yes
+# disable relative pointing when using Digitizer
+# POINTING_DEVICE_ENABLE = no
 # ============================================================================
 # デフォルトキーマップ用設定ファイル
 # ============================================================================
