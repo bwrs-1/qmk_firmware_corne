@@ -5,6 +5,7 @@
 #include "i2c_master.h"
 #include "procyon.h"
 #include "pointing_device.h"
+#include "print.h"
 
 /* ============================================================================
  * Procyon Keyboard Custom Pointing Device Driver
@@ -38,6 +39,7 @@ static bool procyon_init_device(void) {
     uint8_t data = 0x00;
     /* ping with read to avoid devices that NACK write to 0x00 */
     uint8_t ret = i2c_read_register(PROCYON_I2C_ADDR, 0x00, &data, 1, PROCYON_I2C_TIMEOUT);
+    uprintf("[PROCYON] init: addr=0x%02X ret=%d data=0x%02X\n", PROCYON_I2C_ADDR, ret, data);
     if (ret != I2C_STATUS_SUCCESS) {
         return false;
     }
@@ -51,7 +53,7 @@ static bool procyon_init_device(void) {
  * @return 更新されたマウスレポート
  */
 static report_mouse_t procyon_read_data(report_mouse_t mouse_report) {
-    uint8_t data[4];
+    uint8_t data[4] = {0};
     uint8_t ret = i2c_read_register(PROCYON_I2C_ADDR, 0x01, data, 4, PROCYON_I2C_TIMEOUT);
     
     if (ret == I2C_STATUS_SUCCESS) {
@@ -60,8 +62,11 @@ static report_mouse_t procyon_read_data(report_mouse_t mouse_report) {
         int16_t y = (int16_t)((data[2] << 8) | data[3]);
         
         /* マウスレポートの更新 */
-        mouse_report.x = (mouse_xy_report_t)(x / 256);  /* スケーリング */
-        mouse_report.y = (mouse_xy_report_t)(y / 256);  /* スケーリング */
+        mouse_report.x = (mouse_xy_report_t)(x / 128);
+        mouse_report.y = (mouse_xy_report_t)(-y / 128);
+        uprintf("[PROCYON] move x=%d y=%d\n", (int)mouse_report.x, (int)mouse_report.y);
+    } else {
+        uprintf("[PROCYON] read err ret=%d\n", ret);
         
         /* ボタン状態の確認（必要に応じて） */
         if (data[0] & 0x80) {
