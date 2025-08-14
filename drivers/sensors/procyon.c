@@ -17,7 +17,7 @@
 /* ============================================================================
  * 定数定義
  * ============================================================================ */
-#define PROCYON_I2C_ADDR 0x4B                    /* Procyon I2Cアドレス: hardware uses 0x4B */
+#define PROCYON_I2C_ADDR (0x4B << 1)             /* Procyon I2Cアドレス (8-bit, shifted) */
 #define PROCYON_I2C_TIMEOUT 1000                 /* I2Cタイムアウト（ミリ秒） */
 
 /* ============================================================================
@@ -34,8 +34,10 @@ static bool procyon_initialized = false;         /* 初期化フラグ */
  * @return 初期化成功時true、失敗時false
  */
 static bool procyon_init_device(void) {
+    i2c_init();
     uint8_t data = 0x00;
-    uint8_t ret = i2c_write_register(PROCYON_I2C_ADDR, 0x00, &data, 1, PROCYON_I2C_TIMEOUT);
+    /* ping with read to avoid devices that NACK write to 0x00 */
+    uint8_t ret = i2c_read_register(PROCYON_I2C_ADDR, 0x00, &data, 1, PROCYON_I2C_TIMEOUT);
     if (ret != I2C_STATUS_SUCCESS) {
         return false;
     }
