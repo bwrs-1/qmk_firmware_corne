@@ -1,8 +1,12 @@
 SERIAL_DRIVER = vendor
 I2C_DRIVER_REQUIRED = yes
-DIGITIZER_ENABLE = yes          # DIGITIZER_DRIVER の代わりに ENABLE を使用
-DIGITIZER_DRIVER = maxtouch
-POINTING_DEVICE_DRIVER = procyon  # カスタムドライバーを使用
+# Use custom pointing device driver (Procyon mouse), not HID digitizer
+# DIGITIZER_ENABLE/DIGITIZER_DRIVER would disable POINTING_DEVICE; do not enable here
+# DIGITIZER_ENABLE = no
+# DIGITIZER_DRIVER = maxtouch
+POINTING_DEVICE_ENABLE = yes
+POINTING_DEVICE_DRIVER = custom
+POINTING_DEVICE_DRIVER_NAME = procyon
 MAXTOUCH_DEBUG = no
 
 # ============================================================================
