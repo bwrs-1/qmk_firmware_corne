@@ -10,3 +10,4 @@ MAXTOUCH_DEBUG = no
 # VIA設定
 # ============================================================================
 VIA_ENABLE = yes                                # VIA（Visual Input Assistant）を有効化
+CONSOLE_ENABLE = yes                             # USBシリアルコンソールを有効化（uprintf出力）
