@@ -45,19 +45,19 @@ static bool procyon_init_device(void) {
     if (ret == I2C_STATUS_SUCCESS) {
         procyon_i2c_addr = PROCYON_I2C_ADDR_4B;
         dprintf("[PROCYON] init OK addr=0x%02X data=0x%02X\n", procyon_i2c_addr, data);
-        uint8_t pkt[8] = { 'P','I','N','I', (uint8_t)(procyon_i2c_addr>>1), data, 0, 0 };
-        raw_hid_send(pkt, sizeof pkt);
+        uint8_t pkt[RAW_EPSIZE] = { 'P','I','N','I', (uint8_t)(procyon_i2c_addr>>1), data };
+        raw_hid_send(pkt, RAW_EPSIZE);
     } else {
         ret = i2c_read_register(PROCYON_I2C_ADDR_4A, 0x00, &data, 1, PROCYON_I2C_TIMEOUT);
         if (ret == I2C_STATUS_SUCCESS) {
             procyon_i2c_addr = PROCYON_I2C_ADDR_4A;
             dprintf("[PROCYON] init OK addr=0x%02X data=0x%02X\n", procyon_i2c_addr, data);
-            uint8_t pkt[8] = { 'P','I','N','I', (uint8_t)(procyon_i2c_addr>>1), data, 0, 0 };
-            raw_hid_send(pkt, sizeof pkt);
+            uint8_t pkt[RAW_EPSIZE] = { 'P','I','N','I', (uint8_t)(procyon_i2c_addr>>1), data };
+            raw_hid_send(pkt, RAW_EPSIZE);
         } else {
             dprintf("[PROCYON] init FAIL (no I2C ACK at 0x4B/0x4A) ret=%d\n", ret);
-            uint8_t pkt[8] = { 'P','F','A','I', (uint8_t)ret, 0, 0, 0 };
-            raw_hid_send(pkt, sizeof pkt);
+            uint8_t pkt[RAW_EPSIZE] = { 'P','F','A','I', (uint8_t)ret };
+            raw_hid_send(pkt, RAW_EPSIZE);
             return false;
         }
     }
@@ -83,12 +83,12 @@ static report_mouse_t procyon_read_data(report_mouse_t mouse_report) {
         mouse_report.x = (mouse_xy_report_t)(x / 128);
         mouse_report.y = (mouse_xy_report_t)(-y / 128);
         dprintf("[PROCYON] move x=%d y=%d\n", (int)mouse_report.x, (int)mouse_report.y);
-        uint8_t pkt[8] = { 'P','M','O','V', (uint8_t)mouse_report.x, (uint8_t)mouse_report.y, 0, 0 };
-        raw_hid_send(pkt, sizeof pkt);
+        uint8_t pkt[RAW_EPSIZE] = { 'P','M','O','V', (uint8_t)mouse_report.x, (uint8_t)mouse_report.y };
+        raw_hid_send(pkt, RAW_EPSIZE);
     } else {
         dprintf("[PROCYON] read err ret=%d addr=0x%02X\n", ret, procyon_i2c_addr);
-        uint8_t pkt[8] = { 'P','E','R','R', (uint8_t)ret, (uint8_t)(procyon_i2c_addr>>1), 0, 0 };
-        raw_hid_send(pkt, sizeof pkt);
+        uint8_t pkt[RAW_EPSIZE] = { 'P','E','R','R', (uint8_t)ret, (uint8_t)(procyon_i2c_addr>>1) };
+        raw_hid_send(pkt, RAW_EPSIZE);
         
         /* ボタン状態の確認（必要に応じて） */
         if (data[0] & 0x80) {
