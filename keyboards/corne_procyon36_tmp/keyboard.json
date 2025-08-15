@@ -12,7 +12,7 @@
         "rgb_matrix": true,
         "encoder": true,
         "pointing_device": true,
-        "digitizer": true,
+        "digitizer": false,
         "caps_word": true
     },
     "indicators": {

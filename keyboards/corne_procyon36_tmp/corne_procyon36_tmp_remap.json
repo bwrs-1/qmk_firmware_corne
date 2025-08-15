@@ -1,4 +1,6 @@
 {
+  "version": 1,
+  "qmk": { "keyboard": "corne_procyon36_tmp" },
   "name": "Dilemma_3X6",
   "vendorId": "0xAFC6",
   "productId": "0xBFC6",
@@ -31,7 +33,7 @@
     "rgb_matrix": true,
     "encoder": true,
     "pointing_device": true,
-    "digitizer": true,
+    "digitizer": false,
     "caps_word": true
   }
 } 
